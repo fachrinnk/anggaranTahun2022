@@ -64,6 +64,17 @@ class Show extends Database
 
         $this->closeDatabase();
     }
+    function saveManyData($query)
+    {
+        $this->connectDatabase();
+        $result = mysqli_query($this->connection, $query);
+
+        if (!$result) {
+            die('Could not get data: ' . mysqli_connect_error());
+        }
+
+        $this->closeDatabase();
+    }
     function updateData($query)
     {
         $this->connectDatabase();

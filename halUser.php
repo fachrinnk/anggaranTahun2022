@@ -17,12 +17,13 @@ if (isset($_POST['submit'])) {
   $spj = $_POST['spj']; //[array]
   $namaFile = $db->upload();
   if ($namaFile != false) {
-    $db->saveData("INSERT INTO proker VALUES('', '$proker','$nim','$nama','$tanggal','$anggaran','$namaFile','$kegiatan', '0')");
+    $db->saveManyData("INSERT INTO proker VALUES('', '$proker','$nim','$nama','$tanggal','$anggaran','$namaFile','$kegiatan', '0')");
     $data = $db->getTable("SELECT max(kode_proker) from proker");
     $data = $data[0]['max(kode_proker)'];
     foreach ($spj as $item) {
-      $db->saveData("INSERT INTO proker_spj VALUES('', '$data','$item')");
+      $db->saveManyData("INSERT INTO proker_spj VALUES('', '$data','$item')");
     }
+    echo "<script>alert('data berhasil ditambahkan')</script>";
   }
 }
 ?>

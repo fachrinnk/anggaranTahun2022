@@ -77,6 +77,11 @@ $datasIk = $db->getTable("SELECT * FROM v_daya_serap_ik");
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
+        <?php
+        $pagu = $db->getTable("SELECT CONCAT('Rp', FORMAT(pagu(), 2)) as pagu");
+        $pagu = $pagu[0]['pagu'];
+        ?>
+        <p style="font-size : 2em">Pagu : <?= $pagu ?></p>
         <li class="nav-item d-none d-lg-block">
           <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
             <span class="input-group-addon input-group-prepend border-right">
@@ -240,7 +245,7 @@ $datasIk = $db->getTable("SELECT * FROM v_daya_serap_ik");
                     <thead>
                       <tr>
                         <th>Kode Indeks Kerja</th>
-                        <th>Nama Indeks Kerja</th>
+                        <th style="max-width:500px;overflow:auto;">Nama Indeks Kerja</th>
                         <th>Daya Serap</th>
                         <th>Keterangan</th>
                       </tr>
@@ -251,7 +256,7 @@ $datasIk = $db->getTable("SELECT * FROM v_daya_serap_ik");
                                             ?>
                       <tr>
                         <td><?= $data['kode_indeks_kerja'] ?></td>
-                        <td><?= $data['nama_indeks_kerja'] ?></td>
+                        <td style="max-width:500px;overflow:auto;"><?= $data['nama_indeks_kerja'] ?></td>
                         <td class="<?= ($data['daya_serap'] == '0.00%') ? 'text-danger' : 'text-success'; ?> ">
                           <?= $data['daya_serap'] ?> <i
                             class="<?= ($data['daya_serap'] == '0.00%') ? 'ti-arrow-down' : 'ti-arrow-up'; ?>"></i></td>

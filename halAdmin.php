@@ -18,6 +18,32 @@ if (isset($_GET['unagree'])) {
     $db->updateData("UPDATE proker SET isAcc = 0 WHERE kode_proker = '$id'");
     back();
 }
+if (isset($_GET['file_name'])) {
+    $full_path = "File/" . $_GET['file_name'];
+  
+    if (file_exists($full_path)) {
+      $fd = fopen($full_path, "r");
+      $fsize = filesize($full_path);
+      $path_parts = pathinfo($full_path);
+      // var_dump($path_parts);
+      $ext = strtolower($path_parts["extension"]);
+  
+      header("Content-type: application/octet-stream");
+      header("Content-Disposition: filename=\"" . $path_parts["basename"] . "\"");
+  
+      header("Content-length: $fsize");
+      // flush();
+      while (!feof($fd)) {
+        $buffer = fread($fd, 2048);
+        echo $buffer;
+      }
+      fclose($fd);
+    } else {
+      echo "<script>
+          alert('File Doesn\'t exist');
+        </script>";
+    }
+  }
 
 ?>
 <!DOCTYPE html>
@@ -63,7 +89,7 @@ if (isset($_GET['unagree'])) {
             <div>
                 <a class="navbar-brand brand-logo" href="#">
                     <div class="d-flex">
-                        <img src="assets/img/logo/logo.png" alt="logo" class="text-success" width="600" />
+                        <!-- <img src="assets/img/logo/logo.png" alt="logo" class="text-success" width="600" /> -->
                         <h2 class="text-success ms-2 my-auto">BORA</h2>
                         <h2 class="my-auto">Hae</h2>
                     </div>
@@ -173,7 +199,12 @@ if (isset($_GET['unagree'])) {
                                                 <?= $data['nama_kegiatan'] ?>
                                             </td>
                                             <td>
-                                                <?= $data['file_spj'] ?>
+                                                <p>
+                                                <?= explode('-', $data['file_spj'], 2)[1]; ?>
+                                                </p>
+                                                <a href="?file_name=<?= $data['file_spj'] ?>" class="btn btn-primary">
+                                                Download
+                                                </a>
                                             </td>
                                             <td>
                                                 <?php
